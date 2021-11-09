@@ -29,12 +29,12 @@
         </thead>
         <tbody>
             {#if tickets.length}
-                {#each tickets as ticket (ticket)}
+                {#each tickets as ticket (ticket.id)}
                     <tr>
                         <td>{ticket.name} {ticket.lastname}</td>
                         <td>{ticket.email}</td>
                         <td>{ticket.departament}</td>
-                        <td>{ticket.id}</td>
+                        <td>{ticket.registrationCode}</td>
                         <td>{ticket.description}</td>
                     </tr>
                 {/each}

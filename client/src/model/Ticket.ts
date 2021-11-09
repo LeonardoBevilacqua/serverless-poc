@@ -2,11 +2,12 @@ import * as yup from "yup";
 import type { LocaleObject } from "yup/lib/locale";
 
 export interface Ticket {
+    id?: number;
     name: string;
     lastname: string;
     email: string;
     departament: string;
-    id: number;
+    registrationCode: number;
     description: string;
 }
 
@@ -51,11 +52,12 @@ const translation: LocaleObject = {
 yup.setLocale(translation)
 
 export const TicketSchema: yup.SchemaOf<Ticket> = yup.object().shape({
+    id: yup.number(),
     name: yup.string().required().label("Nome"),
     lastname: yup.string().required().label("Sobrenome"),
     email: yup.string().email().required().label("Email"),
     departament: yup.string().required().label("Departamento"),
-    id: yup.number().required().label("ID").typeError("${path} deve ser do tipo numérico"),
+    registrationCode: yup.number().required().label("ID").typeError("${path} deve ser do tipo numérico"),
     description: yup.string().required().label("Descrição"),
 });
 

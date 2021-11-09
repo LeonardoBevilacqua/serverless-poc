@@ -10,7 +10,7 @@
         lastname: "",
         email: "",
         departament: "",
-        id: null,
+        registrationCode: null,
         description: "",
     };
 
@@ -107,18 +107,18 @@
             </div>
 
             <div class="uk-margin-left uk-width-1-3">
-                <label for="id" class="uk-form-label">ID</label>
+                <label for="registrationCode" class="uk-form-label">ID</label>
                 <div class="uk-form-controls">
                     <input
                         type="number"
-                        class="uk-input {errors.id ? 'uk-form-danger' : ''}"
-                        id="id"
+                        class="uk-input {errors.registrationCode ? 'uk-form-danger' : ''}"
+                        id="registrationCode"
                         placeholder="1234"
-                        bind:value={ticket.id}
+                        bind:value={ticket.registrationCode}
                     />
                 </div>
-                {#if errors.id}
-                    <span class="uk-text-danger">{errors.id}</span>
+                {#if errors.registrationCode}
+                    <span class="uk-text-danger">{errors.registrationCode}</span>
                 {/if}
             </div>
         </div>
