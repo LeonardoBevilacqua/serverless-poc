@@ -11,6 +11,10 @@ module.exports.healthCheck = async () => {
   await connectToDatabase()
   console.log('Connection successful.')
   return {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
     statusCode: 200,
     body: JSON.stringify({ message: 'Connection successful.' })
   }
@@ -21,6 +25,10 @@ module.exports.create = async (event) => {
     const { Ticket: Ticket } = await connectToDatabase()
     const ticket = await Ticket.create(JSON.parse(event.body))
     return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       statusCode: 200,
       body: JSON.stringify(ticket)
     }
@@ -39,6 +47,10 @@ module.exports.getOne = async (event) => {
     const ticket = await Ticket.findByPk(event.pathParameters.id)
     if (!ticket) throw new HTTPError(404, `Ticket with id: ${event.pathParameters.id} was not found`)
     return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       statusCode: 200,
       body: JSON.stringify(ticket)
     }
@@ -56,6 +68,10 @@ module.exports.getAll = async () => {
     const { Ticket } = await connectToDatabase()
     const tickets = await Ticket.findAll()
     return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       statusCode: 200,
       body: JSON.stringify(tickets)
     }
@@ -82,6 +98,10 @@ module.exports.update = async (event) => {
     if (input.description) ticket.description = input.description
     await ticket.save()
     return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       statusCode: 200,
       body: JSON.stringify(ticket)
     }
@@ -101,6 +121,10 @@ module.exports.destroy = async (event) => {
     if (!ticket) throw new HTTPError(404, `Ticket with id: ${event.pathParameters.id} was not found`)
     await ticket.destroy()
     return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
       statusCode: 200,
       body: JSON.stringify(ticket)
     }
