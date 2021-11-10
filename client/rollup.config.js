@@ -1,13 +1,18 @@
-import svelte from 'rollup-plugin-svelte';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
-import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
+import livereload from 'rollup-plugin-livereload';
+import svelte from 'rollup-plugin-svelte';
+import { terser } from 'rollup-plugin-terser';
+import sveltePreprocess from 'svelte-preprocess';
+import { config as configDotenv } from 'dotenv';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
+configDotenv({
+	path: `${process.env.ENV}.env` || ''
+})
 
 function serve() {
 	let server;
@@ -39,6 +44,13 @@ export default {
 		file: 'public/build/bundle.js'
 	},
 	plugins: [
+		replace({
+			preventAssignment: true,
+			'process.env.isProd': production,
+			'process.env.ticketApiUrl': () => JSON.stringify(process.env.TICKET_API_URL),
+			__buildDate__: () => JSON.stringify(new Date()),
+			__buildVersion: 1
+		}),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {

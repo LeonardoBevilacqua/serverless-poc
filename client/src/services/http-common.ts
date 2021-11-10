@@ -1,5 +1,4 @@
-//const baseUrl = process.env.TICKET_API_URL || "https://localhost:500/dev";
-const baseUrl = "http://localhost:3000/dev";
+const baseUrl = process.env.ticketApiUrl || "http://localhost:3000/dev";
 const headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
