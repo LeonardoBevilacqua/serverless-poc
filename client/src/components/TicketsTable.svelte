@@ -1,9 +1,18 @@
 <script lang="ts">
+    import { onMount } from "svelte";
+
     import type { Ticket } from "../model/Ticket";
+    import TicketService from "../services/TicketService";
 
     export let darkMode = true;
 
     let tickets: Ticket[] = [];
+
+    onMount(() => {
+        TicketService.getAll().then((data) => {
+            tickets = data;
+        });
+    });
 </script>
 
 <div
