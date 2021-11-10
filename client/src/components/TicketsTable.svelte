@@ -1,18 +1,33 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-
+    import { onMount, createEventDispatcher } from "svelte";
     import type { Ticket } from "../model/Ticket";
     import TicketService from "../services/TicketService";
 
+    import { TicketStore } from "../store/TicketStore";
+
     export let darkMode = true;
 
-    let tickets: Ticket[] = [];
+    const dispatch = createEventDispatcher();
 
     onMount(() => {
-        TicketService.getAll().then((data) => {
-            tickets = data;
+        dispatch("set-loading", true);
+        TicketService.getAll().then((data: Ticket[]) => {
+            TicketStore.update(() => {
+                dispatch("set-loading", false);
+                return data;
+            });
         });
     });
+
+    const deleteTicket = (ticketId: number) => {
+        dispatch("set-loading", true);
+        TicketService.delete(ticketId).then(() => {
+            TicketStore.update((currentTikets) =>
+                currentTikets.filter((ticket) => ticket.id !== ticketId)
+            );
+            dispatch("set-loading", false);
+        });
+    };
 </script>
 
 <div
@@ -21,7 +36,7 @@
         : 'uk-card-default'}"
 >
     <legend class="uk-legend"
-        >Tickets | {tickets.length} ticket{tickets.length !== 1
+        >Tickets | {$TicketStore.length} ticket{$TicketStore.length !== 1
             ? "s"
             : ""}</legend
     >
@@ -34,22 +49,30 @@
                 <th>Departamento</th>
                 <th>ID</th>
                 <th>Descrição</th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>
-            {#if tickets.length}
-                {#each tickets as ticket (ticket.id)}
+            {#if $TicketStore.length}
+                {#each $TicketStore as ticket (ticket.id)}
                     <tr>
                         <td>{ticket.name} {ticket.lastname}</td>
                         <td>{ticket.email}</td>
                         <td>{ticket.departament}</td>
                         <td>{ticket.registrationCode}</td>
                         <td>{ticket.description}</td>
+                        <td
+                            ><button
+                                class="uk-button uk-button-text"
+                                on:click={() => deleteTicket(ticket.id)}
+                                ><span uk-icon="trash" /></button
+                            ></td
+                        >
                     </tr>
                 {/each}
             {:else}
                 <tr>
-                    <td colspan="5" class="uk-text-center"
+                    <td colspan="6" class="uk-text-center"
                         >Sem Tickets para ser exibido.</td
                     >
                 </tr>

@@ -1,8 +1,14 @@
 <script lang="ts">
+import { createEventDispatcher } from "svelte";
+
     import type { Ticket } from "../model/Ticket";
     import { TicketSchema } from "../model/Ticket";
+    import TicketService from "../services/TicketService";
+    import { TicketStore } from "../store/TicketStore";
 
     export let darkMode = true;
+
+    const dispatch = createEventDispatcher();
 
     let errors: any = {};
     let ticket: Ticket = {
@@ -16,20 +22,39 @@
 
     const onSubmit = async () => {
         try {
+            dispatch("set-loading", true);
             await TicketSchema.validate(ticket, { abortEarly: false });
-            alert(JSON.stringify(ticket, null, 2));
+
+            TicketService.create(ticket).then((data: Ticket) => {
+                ticket = {
+                    name: "",
+                    lastname: "",
+                    email: "",
+                    departament: "",
+                    registrationCode: null,
+                    description: "",
+                };
+                TicketStore.update((currentTickets) => {
+                    dispatch("set-loading", false);
+                    return [...currentTickets, data];
+                });
+            });
+
             errors = {};
         } catch (err) {
             errors = err.inner.reduce((acc, err) => {
+                dispatch("set-loading", false);
                 return { ...acc, [err.path]: err.message };
             }, {});
         }
-
-        console.log(ticket);
     };
 </script>
 
-<div class="uk-card uk-card-body {darkMode ? 'uk-card-secondary' : 'uk-card-default'}">
+<div
+    class="uk-card uk-card-body {darkMode
+        ? 'uk-card-secondary'
+        : 'uk-card-default'}"
+>
     <form class="uk-form-stacked" on:submit|preventDefault={onSubmit}>
         <legend class="uk-legend">Registrar Ticket</legend>
 
@@ -111,14 +136,17 @@
                 <div class="uk-form-controls">
                     <input
                         type="number"
-                        class="uk-input {errors.registrationCode ? 'uk-form-danger' : ''}"
+                        class="uk-input {errors.registrationCode
+                            ? 'uk-form-danger'
+                            : ''}"
                         id="registrationCode"
                         placeholder="1234"
                         bind:value={ticket.registrationCode}
                     />
                 </div>
                 {#if errors.registrationCode}
-                    <span class="uk-text-danger">{errors.registrationCode}</span>
+                    <span class="uk-text-danger">{errors.registrationCode}</span
+                    >
                 {/if}
             </div>
         </div>
