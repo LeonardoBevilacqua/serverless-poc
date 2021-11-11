@@ -1,0 +1,25 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "A sample template",
+    "Resources": {
+        "AuroraDB": {
+            "Type": "AWS::RDS::DBCluster",
+            "Properties": {
+                "DatabaseName": "ServerlessPoc",
+                "DBClusterIdentifier": "serverless-poc",
+                "DeletionProtection": true,
+                "EnableHttpEndpoint": true,
+                "Engine": "aurora",
+                "EngineMode": "serverless",
+                "MasterUsername": "admin",
+                "MasterUserPassword": "",
+                "ScalingConfiguration": {
+                    "AutoPause": true,
+                    "MaxCapacity": 2,
+                    "MinCapacity": 1,
+                    "SecondsUntilAutoPause": 300
+                }
+            }
+        }
+    }
+}
