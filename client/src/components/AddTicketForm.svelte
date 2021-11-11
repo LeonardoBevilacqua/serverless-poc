@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher } from "svelte";
 
     import type { Ticket } from "../model/Ticket";
     import { TicketSchema } from "../model/Ticket";
@@ -58,8 +58,8 @@ import { createEventDispatcher } from "svelte";
     <form class="uk-form-stacked" on:submit|preventDefault={onSubmit}>
         <legend class="uk-legend">Registrar Ticket</legend>
 
-        <div class="uk-margin uk-flex">
-            <div class="uk-width-1-2">
+        <div class="uk-grid uk-margin">
+            <div class="uk-width-1-1 uk-width-1-2@s">
                 <label for="name" class="uk-form-label">Nome</label>
                 <div class="uk-form-controls">
                     <input
@@ -75,7 +75,7 @@ import { createEventDispatcher } from "svelte";
                 {/if}
             </div>
 
-            <div class="uk-margin-left uk-width-1-2">
+            <div class="uk-width-1-1 uk-width-1-2@s">
                 <label for="lastname" class="uk-form-label">Sobrenome</label>
                 <div class="uk-form-controls">
                     <input
@@ -94,8 +94,8 @@ import { createEventDispatcher } from "svelte";
             </div>
         </div>
 
-        <div class="uk-margin uk-flex">
-            <div class="uk-width-1-3">
+        <div class="uk-margin uk-grid">
+            <div class="uk-width-1-1 uk-width-1-3@s">
                 <label for="email" class="uk-form-label">Email</label>
                 <div class="uk-form-controls">
                     <input
@@ -111,7 +111,7 @@ import { createEventDispatcher } from "svelte";
                 {/if}
             </div>
 
-            <div class="uk-margin-left uk-width-1-3">
+            <div class="uk-width-1-1 uk-width-1-3@s">
                 <label for="departament" class="uk-form-label"
                     >Departamento</label
                 >
@@ -131,7 +131,7 @@ import { createEventDispatcher } from "svelte";
                 {/if}
             </div>
 
-            <div class="uk-margin-left uk-width-1-3">
+            <div class="uk-width-1-1 uk-width-1-3@s">
                 <label for="registrationCode" class="uk-form-label">ID</label>
                 <div class="uk-form-controls">
                     <input

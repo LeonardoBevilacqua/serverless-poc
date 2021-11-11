@@ -40,43 +40,46 @@
             ? "s"
             : ""}</legend
     >
-
-    <table class="uk-table uk-table-hover uk-table-divider uk-table-striped">
-        <thead>
-            <tr>
-                <th>Nome completo</th>
-                <th>Email</th>
-                <th>Departamento</th>
-                <th>ID</th>
-                <th>Descrição</th>
-                <th>Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#if $TicketStore.length}
-                {#each $TicketStore as ticket (ticket.id)}
+    <div class="uk-overflow-auto">
+        <table
+            class="uk-table uk-table-hover uk-table-divider uk-table-striped"
+        >
+            <thead>
+                <tr>
+                    <th>Nome completo</th>
+                    <th>Email</th>
+                    <th>Departamento</th>
+                    <th>ID</th>
+                    <th>Descrição</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#if $TicketStore.length}
+                    {#each $TicketStore as ticket (ticket.id)}
+                        <tr>
+                            <td>{ticket.name} {ticket.lastname}</td>
+                            <td>{ticket.email}</td>
+                            <td>{ticket.departament}</td>
+                            <td>{ticket.registrationCode}</td>
+                            <td>{ticket.description}</td>
+                            <td
+                                ><button
+                                    class="uk-button uk-button-text"
+                                    on:click={() => deleteTicket(ticket.id)}
+                                    ><span uk-icon="trash" /></button
+                                ></td
+                            >
+                        </tr>
+                    {/each}
+                {:else}
                     <tr>
-                        <td>{ticket.name} {ticket.lastname}</td>
-                        <td>{ticket.email}</td>
-                        <td>{ticket.departament}</td>
-                        <td>{ticket.registrationCode}</td>
-                        <td>{ticket.description}</td>
-                        <td
-                            ><button
-                                class="uk-button uk-button-text"
-                                on:click={() => deleteTicket(ticket.id)}
-                                ><span uk-icon="trash" /></button
-                            ></td
+                        <td colspan="6" class="uk-text-center"
+                            >Sem Tickets para ser exibido.</td
                         >
                     </tr>
-                {/each}
-            {:else}
-                <tr>
-                    <td colspan="6" class="uk-text-center"
-                        >Sem Tickets para ser exibido.</td
-                    >
-                </tr>
-            {/if}
-        </tbody>
-    </table>
+                {/if}
+            </tbody>
+        </table>
+    </div>
 </div>
