@@ -16,6 +16,9 @@
                 dispatch("set-loading", false);
                 return data;
             });
+        }).catch(() => {
+            alert('Erro ao carregar dados, tente novamente')
+            dispatch("set-loading", false);
         });
     });
 

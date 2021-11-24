@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "rollup -c --environment ENV:dev",
-    "local": "rollup -c -w",
-    "dev": "rollup -c -w --environment ENV:dev",
+    "dev": "rollup -c -w",
+    "aws": "rollup -c -w --environment ENV:dev",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
