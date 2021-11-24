@@ -1,8 +1,8 @@
 service: web-api
 
 custom:
-  secrets: ${file(secrets.local.json)}
-  #secrets: ${file(secrets.json)}
+  #secrets: ${file(secrets.local.json)}
+  secrets: ${file(secrets.json)}
 
 provider:
   name: aws
@@ -85,6 +85,13 @@ functions:
           retryPolicy:
             maximumEventAge: 3600
             maximumRetryAttempts: 10
+  getAllEventBridgeLog:
+    handler: handler.getAllEventBridgeLog
+    events:
+     - http:
+         path: logs
+         method: get
+         cors: true
 
 plugins:
   - serverless-offline

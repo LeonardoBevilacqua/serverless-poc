@@ -138,20 +138,47 @@ module.exports.destroy = async (event) => {
 }
 
 module.exports.createEventBridgeLog = async (event, context, callback) => {
-  try {
-    const { Log: Log } = await connectToDatabase()
-    const log = await Log.create({
-      id: event['id'],
-      detailType: event['detail-type'],
-      source: event['source'],
-      time: event['time'],
-      detailMessage: event['detail']['Message']
-    })
-
-    console.log('Log: ', log)
-  } catch (err) {
-    console.error(err)
+  if (event['detail']['Message'] == 'The DB cluster is resumed.') {
+    try {
+      const { Log: Log } = await connectToDatabase()
+      const log = await Log.create({
+        id: event['id'],
+        detailType: event['detail-type'],
+        source: event['source'],
+        time: event['time'],
+        detailMessage: event['detail']['Message']
+      })
+  
+      console.log('Log: ', log)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   callback(null, 'Finished');
+}
+
+module.exports.getAllEventBridgeLog = async () => {
+  try {
+    const { Log: Log } = await connectToDatabase()
+    const logs = await Log.findAll({
+      order: [
+        ['time', 'ASC']
+      ]
+    })
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      statusCode: 200,
+      body: JSON.stringify(logs)
+    }
+  } catch (err) {
+    return {
+      statusCode: err.statusCode || 500,
+      headers: { 'Content-Type': 'text/plain' },
+      body: 'Could not fetch the logs.'
+    }
+  }
 }
