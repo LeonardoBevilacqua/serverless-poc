@@ -1,7 +1,8 @@
 service: web-api
 
 custom:
-  secrets: ${file(secrets.json)}
+  secrets: ${file(secrets.local.json)}
+  #secrets: ${file(secrets.json)}
 
 provider:
   name: aws
@@ -26,6 +27,8 @@ provider:
       - ${self:custom.secrets.SUBNET4_ID}
       - ${self:custom.secrets.SUBNET5_ID}
       - ${self:custom.secrets.SUBNET6_ID}
+  eventBridge:
+    useCloudFormation: true
 
 functions:
   healthCheck:
@@ -70,6 +73,18 @@ functions:
          path: tickets/{id}
          method: delete
          cors: true
+  createEventBridgeLog:
+    handler: handler.createEventBridgeLog
+    events:
+      - eventBridge:
+          pattern:
+            source: 
+              - aws.rds
+            detail-type:
+              - RDS DB Cluster Event
+          retryPolicy:
+            maximumEventAge: 3600
+            maximumRetryAttempts: 10
 
 plugins:
   - serverless-offline

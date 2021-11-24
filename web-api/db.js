@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const TicketModel = require('./models/Ticket')
+const LogModel = require('./models/Log')
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -11,7 +12,8 @@ const sequelize = new Sequelize(
         port: process.env.DB_PORT
     })
 const Ticket = TicketModel(sequelize, Sequelize)
-const Models = { Ticket }
+const Log = LogModel(sequelize, Sequelize)
+const Models = { Ticket, Log }
 const connection = {}
 
 module.exports = async () => {

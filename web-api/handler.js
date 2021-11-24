@@ -43,7 +43,7 @@ module.exports.create = async (event) => {
 
 module.exports.getOne = async (event) => {
   try {
-    const { Ticket } = await connectToDatabase()
+    const { Ticket: Ticket } = await connectToDatabase()
     const ticket = await Ticket.findByPk(event.pathParameters.id)
     if (!ticket) throw new HTTPError(404, `Ticket with id: ${event.pathParameters.id} was not found`)
     return {
@@ -65,7 +65,7 @@ module.exports.getOne = async (event) => {
 
 module.exports.getAll = async () => {
   try {
-    const { Ticket } = await connectToDatabase()
+    const { Ticket: Ticket } = await connectToDatabase()
     const tickets = await Ticket.findAll()
     return {
       headers: {
@@ -87,7 +87,7 @@ module.exports.getAll = async () => {
 module.exports.update = async (event) => {
   try {
     const input = JSON.parse(event.body)
-    const { Ticket } = await connectToDatabase()
+    const { Ticket: Ticket } = await connectToDatabase()
     const ticket = await Ticket.findByPk(event.pathParameters.id)
     if (!ticket) throw new HTTPError(404, `Ticket with id: ${event.pathParameters.id} was not found`)
     if (input.name) ticket.name = input.name
@@ -116,7 +116,7 @@ module.exports.update = async (event) => {
 
 module.exports.destroy = async (event) => {
   try {
-    const { Ticket } = await connectToDatabase()
+    const { Ticket: Ticket } = await connectToDatabase()
     const ticket = await Ticket.findByPk(event.pathParameters.id)
     if (!ticket) throw new HTTPError(404, `Ticket with id: ${event.pathParameters.id} was not found`)
     await ticket.destroy()
@@ -135,4 +135,23 @@ module.exports.destroy = async (event) => {
       body: err.message || 'Could destroy fetch the Ticket.'
     }
   }
+}
+
+module.exports.createEventBridgeLog = async (event, context, callback) => {
+  try {
+    const { Log: Log } = await connectToDatabase()
+    const log = await Log.create({
+      id: event['id'],
+      detailType: event['detail-type'],
+      source: event['source'],
+      time: event['time'],
+      detailMessage: event['detail']['Message']
+    })
+
+    console.log('Log: ', log)
+  } catch (err) {
+    console.error(err)
+  }
+
+  callback(null, 'Finished');
 }
