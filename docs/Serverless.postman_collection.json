@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "c8259240-6741-4413-9e29-64a050bdfebc",
+		"name": "Serverless",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dev/tickets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dev/tickets/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"tickets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Leonardo\",\r\n    \"lastname\": \"Almeida Bevilacqua\",\r\n    \"email\": \"leonardo_bevilacqua@eldorado.org.br\",\r\n    \"departament\": \"DSA\",\r\n    \"registrationCode\": 1234,\r\n    \"description\": \"Teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/dev/tickets/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"tickets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dev/tickets/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"tickets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Leonardo\",\r\n    \"lastname\": \"Bevilacqua\",\r\n    \"email\": \"leonardo_bevilacqua@eldorado.org.br\",\r\n    \"departament\": \"DSA\",\r\n    \"registrationCode\": 1234,\r\n    \"description\": \"Teste\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/dev/tickets",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logs",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/dev/logs",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"dev",
+								"logs"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dev",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dev"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000"
+		}
+	]
+}
