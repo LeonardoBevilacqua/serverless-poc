@@ -1,9 +1,9 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from "svelte";
-    import type { Ticket } from "../model/Ticket";
-    import TicketService from "../services/TicketService";
+    import type { Ticket } from "../../../model/Ticket";
+    import TicketService from "../../../services/TicketService";
 
-    import { TicketStore } from "../store/TicketStore";
+    import { TicketStore } from "../../../store/TicketStore";
 
     export let darkMode = true;
 

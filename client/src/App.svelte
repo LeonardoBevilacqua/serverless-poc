@@ -1,9 +1,10 @@
 <script lang="ts">
-	import AddTicketForm from "./components/AddTicketForm.svelte";
-	import TicketsTable from "./components/TicketsTable.svelte";
+	import { Router, Route } from "svelte-navigator";
 	import Footer from "./components/ui/Footer.svelte";
 	import Navbar from "./components/ui/Navbar.svelte";
 	import Loading from "./components/ui/Loading.svelte";
+	import Ticket from "./pages/Ticket/Ticket.svelte";
+	import Log from "./pages/Log/Log.svelte";
 
 	let darkMode = true;
 	let isLoading = false;
@@ -18,30 +19,19 @@
 	const setLoading = (e: { detail: boolean }) => (isLoading = e.detail);
 </script>
 
-{#if isLoading}
-	<Loading />
-{/if}
-<Navbar {darkMode} on:set-dark-mode={setDarkMode} />
-<main
-	class="uk-container uk-padding-small uk-width-expand {darkMode
-		? 'uk-light'
-		: 'uk-dark'}"
->
-	<ul uk-accordion>
-		<li>
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<a class="uk-accordion-title">Novo Ticket</a>
-			<div class="uk-accordion-content">
-				<AddTicketForm {darkMode} on:set-loading={setLoading} />
-			</div>
-		</li>
-	</ul>
-
-	<hr />
-
-	<TicketsTable {darkMode} on:set-loading={setLoading} />
-</main>
-<Footer {darkMode} />
+<Router>
+	{#if isLoading}
+		<Loading />
+	{/if}
+	<Navbar {darkMode} on:set-dark-mode={setDarkMode} />
+	<Route path="/">
+		<Ticket {darkMode} on:set-loading={setLoading} />
+	</Route>
+	<Route path="/log">
+		<Log {darkMode} />
+	</Route>
+	<Footer {darkMode} />
+</Router>
 
 <style>
 	:global(body) {
