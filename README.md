@@ -3,10 +3,13 @@
 ## Sobre
 
 Aplicação de exemplo criada para utilizar serviços serverless da AWS. Serviços utilizados:
+
 * Aurora Serverless;
 * Lambda functions;
 * EventBridge.
+
 Outros serviços:
+
 * CloudFormation;
 * CloudFront;
 * ApiGateway;
